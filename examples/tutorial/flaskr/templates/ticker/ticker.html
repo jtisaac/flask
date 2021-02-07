@@ -6,6 +6,9 @@
 
 {% block content %}
 
+  <!--TODO: Rename 'save' button to 'submit'-->
+  <!--TODO: Rename 'test' header to 'Stock Price'-->
+  <!--TODO: Add learning information-->
   <form method="post">
     <label for="ticker_key">Ticker</label>
     <input name="ticker_key" id="ticker_key" value="{{ request.form['ticker_key'] }}" required>
@@ -15,8 +18,10 @@
   <h1>test</h1>
   <!--<h1>{% block tickdat %}"{{ ticker_info }}"{% endblock %}</h1>-->
 
+  <div id="current_price"></div>
   <div id="chartdiv"></div>
-
+  
+  <!--https://www.amcharts.com/demos/line-chart-with-scroll-and-zoom/-->
   <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
@@ -82,7 +87,12 @@
 
     }); // end am4core.ready()
 
-
+    document.getElementById('current_price').innerHTML = "Current Price: " + data[data.length-1]['price'];
   </script>
 
+  <form method="post">
+    <label for="option_date">Select Options Expry Date</label>
+    <input type="date" name="option_date" id="option_date" value="{{ request.form['option_date'] }}" required>
+    <input type="submit" value="Submit">
+  </form>
 {% endblock %}
