@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Find ticker{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="ticker_key">Ticker</label>
+    <input name="ticker_key" id="ticker_key" value="{{ request.form['ticker_key'] }}" required>
+    <input type="submit" value="Save">
+  </form>
+
+  <h1>test</h1>
+  <h1>{% block tickdat %}"{{ ticker_info['symbols'] }}"{% endblock %}</h1>
+{% endblock %}
