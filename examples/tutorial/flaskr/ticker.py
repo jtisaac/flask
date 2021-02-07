@@ -31,15 +31,25 @@ def index():
             flash(error)
         else:
             # get the ticker info
-            response = requests.get('https://sandbox.tradier.com/v1/markets/options/lookup',
-                params={'underlying': ticker_key},
+            #response = requests.get('https://sandbox.tradier.com/v1/markets/options/lookup',
+            #    params={'underlying': ticker_key},
+            #    headers={'Authorization': 'Bearer sNhzFaRt7B2uRiX73um6JPDceWbm', 'Accept': 'application/json'}
+            #)
+            #json_response = response.json()
+
+
+            response = requests.get('https://sandbox.tradier.com/v1/markets/timesales',
+                params={'symbol': ticker_key, 'interval': '1min', 'start': '2021-02-01 09:30', 'end': '2021-02-05 16:00', 'session_filter': 'all'},
                 headers={'Authorization': 'Bearer sNhzFaRt7B2uRiX73um6JPDceWbm', 'Accept': 'application/json'}
             )
             json_response = response.json()
+            print(response.status_code)
+
             print(json_response)
+
             #return redirect(url_for("blog.index"))
 
-    return render_template("ticker/ticker.html", ticker_info=json_response)
+    return render_template("ticker/ticker.html", ticker_info=json_response) #ticker_info=json.dumps(json_response)
 
 
 @bp.route("/create", methods=("GET", "POST"))
