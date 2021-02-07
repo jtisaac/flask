@@ -19,6 +19,7 @@ bp = Blueprint("ticker", __name__)
 
 @bp.route("/ticker", methods=('POST','GET'))
 def index():
+    # TODO: Show historical daily stock prices since the first stock (modify api call to https://documentation.tradier.com/brokerage-api/markets/get-history)
     # TODO: Allow multiple tickers to be entered
     # TODO: Add parameters (date range)
     """Return market data for ticker entered by user."""
