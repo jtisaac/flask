@@ -44,23 +44,23 @@ def index():
         
         else:
             if option_date is None:
-                response = requests.get('https://sandbox.tradier.com/v1/markets/timesales',
-                    params={'symbol': ticker_key, 'interval': '1min', 'start': '2021-02-01 09:30', 'end': '2021-02-05 16:00', 'session_filter': 'all'},
+                response = requests.get('https://sandbox.tradier.com/v1/markets/history',
+                    params={'symbol': ticker_key, 'interval': 'daily', 'start': '1930-05-04', 'end': '2030-02-04'},
                     headers={'Authorization': 'Bearer sNhzFaRt7B2uRiX73um6JPDceWbm', 'Accept': 'application/json'}
                 )
                 json_response = response.json()
-                ticker_key_prior = ticker_key
                 print(response.status_code)
-
                 print(json_response)
+
+                ticker_key_prior = ticker_key
             else:
-                response = requests.get('https://sandbox.tradier.com/v1/markets/timesales',
-                    params={'symbol': ticker_key, 'interval': '1min', 'start': '2021-02-01 09:30', 'end': '2021-02-05 16:00', 'session_filter': 'all'},
+                response = requests.get('https://sandbox.tradier.com/v1/markets/history',
+                    params={'symbol': ticker_key, 'interval': 'daily', 'start': '1930-05-04', 'end': '2030-02-04'},
                     headers={'Authorization': 'Bearer sNhzFaRt7B2uRiX73um6JPDceWbm', 'Accept': 'application/json'}
                 )
                 json_response = response.json()
                 print(response.status_code)
-
+               
                 print(json_response)
                 ticker_key_prior = ticker_key
 

@@ -26,11 +26,12 @@
   <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-  <script>
-    console.log({{ticker_info | safe}}['series']['data'][0]['time']);
-    var data = {{ticker_info | safe}}['series']['data'];
-    console.log(typeof data[0]['price']);
+  <script> 
+    console.log({{ticker_info | safe}}['history']['day'][0]['date']);
+    var data = {{ticker_info | safe}}['history']['day'];
+    console.log(typeof data[0]['close']);
     am4core.ready(function() {
+    console.log("start");
 
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -50,7 +51,7 @@
 
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "price";
+    series.dataFields.valueY = "close";
     series.dataFields.dateX = "date";
     series.strokeWidth = 2;
     series.minBulletDistance = 10;
@@ -75,11 +76,11 @@
             // we create date objects here. In your data, you can have date strings
             // and then set format of your dates using chart.dataDateFormat property,
             // however when possible, use date objects, as this will speed up chart rendering.
-            var newDate = new Date(data[i]['time']);
-
+            var newDate = new Date(data[i]['date']);
+            
             chartData.push({
                 date: newDate,
-                price: data[i]['price']
+                close: data[i]['close']
             });
         }
         console.log(chartData);
@@ -88,8 +89,10 @@
 
     }); // end am4core.ready()
 
-    document.getElementById('current_price').innerHTML = "Current Price: " + data[data.length-1]['price'];
-  </script>
+    document.getElementById('current_price').innerHTML = "Current Price: " + data[data.length-1]['close'];
+    console.log("finished");
+
+ </script> 
 
   <form method="post">
     <label for="option_date">Select Options Expry Date</label>
@@ -97,8 +100,9 @@
     <input type="submit" value="Submit">
   </form>
   <!--<h1>"{{ options_info }}"</h1>-->
-
+  <h1>Call Options</h1>
   <div id="call_chartdiv"></div>
+  <h1>Put Options</h1>
   <div id="put_chartdiv"></div>
 
   <!--https://www.amcharts.com/demos/line-chart-with-scroll-and-zoom/-->
@@ -106,6 +110,7 @@
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
   <script>
+      
     //console.log({{options_info | safe}}['series']['data'][0]['time']);
     var call_data = {{options_info | safe}}['call'];
     console.log(call_data);
