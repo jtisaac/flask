@@ -95,6 +95,66 @@
     <input type="date" name="option_date" id="option_date" value="{{ request.form['option_date'] }}" required>
     <input type="submit" value="Submit">
   </form>
-  <h1>"{{ options_info }}"</h1>
+  <!--<h1>"{{ options_info }}"</h1>-->
+
+  <div id="call_chartdiv"></div>
+  <div id="put_chartdiv"></div>
+
+  <!--https://www.amcharts.com/demos/line-chart-with-scroll-and-zoom/-->
+  <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+  <script>
+    //console.log({{options_info | safe}}['series']['data'][0]['time']);
+    var call_data = {{options_info | safe}}['call'];
+    console.log(call_data);
+    // Create chart
+    var call_chart = am4core.create("call_chartdiv", am4charts.XYChart);
+
+    // The following would work as well:
+    // var chart = am4core.create("chartdiv", "XYChart");
+
+    // Add Data
+    call_chart.data = call_data;
+
+    // Add category axis
+    var categoryAxis = call_chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "strike";
+
+    // Add value axis
+    var valueAxis = call_chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Add series
+    var call_series = call_chart.series.push(new am4charts.ColumnSeries());
+    call_series.name = "Calls";
+    call_series.dataFields.categoryX = "strike";
+    call_series.dataFields.valueY = "price";
+
+    //console.log({{options_info | safe}}['series']['data'][0]['time']);
+    var put_data = {{options_info | safe}}['put'];
+    console.log(put_data);
+    // Create chart
+    var put_chart = am4core.create("put_chartdiv", am4charts.XYChart);
+
+    // The following would work as well:
+    // var chart = am4core.create("chartdiv", "XYChart");
+
+    // Add Data
+    put_chart.data = put_data;
+
+    // Add category axis
+    var categoryAxis = put_chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "strike";
+
+    // Add value axis
+    var valueAxis = put_chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Add series
+    var put_series = put_chart.series.push(new am4charts.ColumnSeries());
+    put_series.name = "Puts";
+    put_series.dataFields.categoryX = "strike";
+    put_series.dataFields.valueY = "price";
+
+  </script>
 
 {% endblock %}

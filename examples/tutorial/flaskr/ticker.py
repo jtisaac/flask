@@ -24,7 +24,7 @@ def index():
     """Return market data for ticker entered by user."""
     json_response = ""
     json_response_options = ""
-    
+    options_response = ""
     global ticker_key_prior
 
     if request.method == "POST":
@@ -34,7 +34,6 @@ def index():
         error = None
 
         if not ticker_key:
-            #ticker_key = 'GOOGL'
             ticker_key = ticker_key_prior
             if not ticker_key:
                 error = "Ticker is required."
@@ -54,7 +53,6 @@ def index():
 
                 print(json_response)
             else:
-                print("trying options")
                 response = requests.get('https://sandbox.tradier.com/v1/markets/timesales',
                     params={'symbol': ticker_key, 'interval': '1min', 'start': '2021-02-01 09:30', 'end': '2021-02-05 16:00', 'session_filter': 'all'},
                     headers={'Authorization': 'Bearer sNhzFaRt7B2uRiX73um6JPDceWbm', 'Accept': 'application/json'}
@@ -70,7 +68,14 @@ def index():
                     headers={'Authorization': 'Bearer sNhzFaRt7B2uRiX73um6JPDceWbm', 'Accept': 'application/json'}
                 )
                 json_response_options = response.json()
+                options_response = {
+                    'call': [],
+                    'put': []
+                }
+                for option in json_response_options["options"]["option"]:
+                    options_response[option['option_type']].append({"strike": option['strike'], "price": (option['bid'] + option['ask']) / 2})
+
                 print(response.status_code)
                 print(json_response_options)
 
-    return render_template("ticker/ticker.html", ticker_info=json_response, options_info=json_response_options) #ticker_info=json.dumps(json_response)
+    return render_template("ticker/ticker.html", ticker_info=json_response, options_info=options_response) #ticker_info=json.dumps(json_response)

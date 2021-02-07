@@ -137,3 +137,13 @@ input[type=submit] {
   width: 100%;
   height: 500px;
 }
+
+#call_chartdiv {
+  width: 100%;
+  height: 500px;
+}
+
+#put_chartdiv {
+  width: 100%;
+  height: 500px;
+}
